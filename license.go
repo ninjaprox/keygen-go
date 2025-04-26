@@ -19,17 +19,40 @@ const (
 type License struct {
 	ID               string                 `json:"-"`
 	Type             string                 `json:"-"`
-	Name             string                 `json:"name"`
-	Key              string                 `json:"key"`
-	Expiry           *time.Time             `json:"expiry"`
-	Scheme           SchemeCode             `json:"scheme"`
-	RequireHeartbeat bool                   `json:"requireHeartbeat"`
-	LastValidated    *time.Time             `json:"lastValidated"`
-	Created          time.Time              `json:"created"`
-	Updated          time.Time              `json:"updated"`
-	Metadata         map[string]interface{} `json:"metadata"`
+	Name             string                 `json:"name,omitempty"`
+	Key              string                 `json:"key,omitempty"`
+	Expiry           *time.Time             `json:"expiry,omitempty"`
+	Scheme           SchemeCode             `json:"scheme,omitempty"`
+	RequireHeartbeat bool                   `json:"requireHeartbeat,omitempty"`
+	LastValidated    *time.Time             `json:"lastValidated,omitempty"`
+	Created          *time.Time             `json:"created,omitempty"`
+	Updated          *time.Time             `json:"updated,omitempty"`
+	Metadata         map[string]interface{} `json:"metadata,omitempty"`
 	PolicyId         string                 `json:"-"`
 	LastValidation   *ValidationResult      `json:"-"`
+}
+
+func (l License) GetID() string {
+	return l.ID
+}
+
+func (l License) GetType() string {
+	return "licenses"
+}
+
+func (l License) GetData() interface{} {
+	return l
+}
+
+func (l License) GetRelationships() map[string]interface{} {
+	relationships := make(map[string]interface{})
+
+	relationships["policy"] = jsonapi.ResourceObjectIdentifier{
+		ID:   l.PolicyId,
+		Type: "policies",
+	}
+
+	return relationships
 }
 
 // SetID implements the jsonapi.UnmarshalResourceIdentifier interface.
