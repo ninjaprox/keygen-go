@@ -58,18 +58,18 @@ func (v validate) GetMeta() interface{} {
 	return meta{Scope: scope{Fingerprint: v.fingerprint, Components: v.components, Environment: nil, Product: Product}}
 }
 
-type validation struct {
+type Validation struct {
 	License License          `json:"-"`
 	Result  ValidationResult `json:"-"`
 }
 
 // SetData implements the jsonapi.UnmarshalData interface.
-func (v *validation) SetData(to func(target interface{}) error) error {
+func (v *Validation) SetData(to func(target interface{}) error) error {
 	return to(&v.License)
 }
 
 // SetMeta implements jsonapi.UnmarshalMeta interface.
-func (v *validation) SetMeta(to func(target interface{}) error) error {
+func (v *Validation) SetMeta(to func(target interface{}) error) error {
 	return to(&v.Result)
 }
 

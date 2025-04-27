@@ -87,7 +87,7 @@ func (l *License) SetRelationships(relationships map[string]interface{}) error {
 // ErrLicenseTooManyMachines.
 func (l *License) Validate(ctx context.Context, fingerprints ...string) error {
 	client := NewClient()
-	validation := &validation{}
+	validation := &Validation{}
 
 	// split up fingerprints (first is machine, rest are components)
 	var params validate
